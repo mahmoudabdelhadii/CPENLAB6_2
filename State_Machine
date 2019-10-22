@@ -1,8 +1,12 @@
-module State_Machine(clk,reset,s,opcode,op,datapath_in, readnum,writenum, ALUop, shift, loada,loadb,loadc,loads, asel,bsel,write,vsel,w,nsel);
-input s,clk,reset, loada,loadb,loadc,loads, asel,bsel,vsel, write;
-input[15:0] datapath_in;
-input[2:0] opcode, readnum, writenum;
-input[1:0] op, ALUop, shift;
+module State_Machine(clk, reset, s, opcode, op, datapath_in, readnum, writenum, ALUop, shift, loada, loadb, loadc, loads, asel, bsel, vsel, write, w, nsel);
+input clk, s, reset;
+input[2:0] opcode;
+input[1:0] op;
+output w loada, loadb, loadc, loads, asel, bsel, vsel, write;
+output[2:0] nsel;
+output[15:0] datapath_in;
+output[2:0] readnum, writenum;
+output[1:0] ALUop, shift;
 
 `define SW 7
 `define Wait 7'b0000000
