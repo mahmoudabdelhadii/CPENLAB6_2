@@ -1,0 +1,36 @@
+module State_Machine(clk,reset,s,opcode,op,datapath_in, readnum,writenum, ALUop, shift, loada,loadb,loadc,loads, asel,bsel,write,vsel,w,nsel);
+input s,clk,reset, loada,loadb,loadc,loads, asel,bsel,vsel, write;
+input[15:0] datapath_in;
+input[2:0] opcode, readnum, writenum;
+input[1:0] op, ALUop, shift;
+
+`define SW 7
+`define Wait 7'b0000000
+`define Decode 7'b0000001
+`define Writelmm 7'b0000010
+`define GetA 7'b0000011
+`define GetB 7'b0000100
+`define Add 7'b0000101
+`define WriteReg 7'b0000111
+
+wire [`SW-1:0] present_state, state_next_reset, state_next;
+  reg [(`SW+4)-1:0] next;
+  
+  // state DFF for control FSM for exponent circuit
+  vDFF #(`SW) STATE(clk,state_next_reset,present_state);
+  // reset mux for control FSM for exponent circuit
+  assign state_next_reset = reset ? `Sa : state_next;
+  // combinational logic for control FSM for exponent circuit
+  always @(*)
+    casex ( {present_state, s, zero} )
+      {`Sa,2'b0x}: next = {`Sa, 4'b1110}; // Sa->Sa as long as s==0; SelP=loadP=selA=1 
+      {`Sa,2'b1x}: next = {`Sb, 4'b1110}; // Sa->Sb when s==1; same outputs (Moore FSM) 
+      {`Sb,2'bx0}: next = {`Sb, 4'b0100}; // Sb->Sb as long as zero==0; loadP=1
+      {`Sb,2'bx1}: next = {`Sc, 4'b0100}; // Sb->Sc once zero==1; same outputs (Moore FSM)
+      {`Sc,2'b0x}: next = {`Sc, 4'b0001}; // Sc->Sc as long as s==0; set done=1 to tell world we’re done
+      {`Sc,2'b1x}: next = {`Sa, 4'b0001}; // Sc->Sa once s==1 again (handshake with consumer of results)
+      default:     next = {{`SW{1'bx}},{4{1'bx}}}; // only get here if present_state, s, or zero are x’s
+    endcase
+  // copy to module outputs
+  assign {state_next, selP, loadP, selA, done} = next;
+endmodule
