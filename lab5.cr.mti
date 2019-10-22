@@ -1,0 +1,92 @@
+{//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/shifter_tb.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/shifter_tb.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module shifter_tb
+
+Top level modules:
+	shifter_tb
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/regfile_tb.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/regfile_tb.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module regfile_tb
+
+Top level modules:
+	regfile_tb
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/vDFFE.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/vDFFE.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module vDFFE
+
+Top level modules:
+	vDFFE
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/shifter.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/shifter.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module shifter
+
+Top level modules:
+	shifter
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/lab5_autograder_check.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/lab5_autograder_check.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module lab5_check_1
+-- Compiling module lab5_check_2
+-- Compiling module lab5_check_3
+
+Top level modules:
+	lab5_check_1
+	lab5_check_2
+	lab5_check_3
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/decoder.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/decoder.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module Dec
+
+Top level modules:
+	Dec
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/lab5_top_tb.sv} {1 {vlog -work work -sv -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/lab5_top_tb.sv}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module lab5_top_tb
+
+Top level modules:
+	lab5_top_tb
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/alu.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/alu.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module ALU
+
+Top level modules:
+	ALU
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/datapath_tb.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/datapath_tb.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module datapath_tb
+
+Top level modules:
+	datapath_tb
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/lab5_top.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/lab5_top.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module lab5_top
+-- Compiling module input_iface
+-- Compiling module vDFF
+-- Compiling module sseg
+
+Top level modules:
+	lab5_top
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/alu_tb.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/alu_tb.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module ALU_tb
+
+Top level modules:
+	ALU_tb
+
+} {} {}} {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/datapath.v} {1 {vlog -work work -stats=none {//Mac/Home/Desktop/UBC/3rd Year/Winter 1/CPEN211(2)/LABS/LAB5/datapath.v}
+Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+-- Compiling module datapath
+
+Top level modules:
+	datapath
+
+} {} {}}
