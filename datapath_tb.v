@@ -1,14 +1,24 @@
 module datapath_tb;  //datapath_in,loada,loadb,loadc,loads,asel,bsel,vsel,ALUop,shift,datapath_out,Z_out,write,writenum,readnum,clk
 reg err;
-reg[15:0]datapath_in;
+/*reg[15:0]datapath_in;
 reg[2:0]writenum,readnum;
 reg[1:0]ALUop,shift;
 reg loada,loadb,loadc,loads,asel,bsel,vsel,clk,write;
 wire[15:0]datapath_out;
 wire Z_out;
+*/
+reg[2:0]readnum,writenum;
+reg[1:0]ALUop,shift;
+reg loada,loadb,loadc,loads,asel,bsel,write,clk;
+reg [3:0]vsel;
+reg [15:0] sximm5, sximm8, mdata;
+reg [7:0] PC;
 
+wire[15:0] datapath_out;
+wire [2:0] Z_out;  //zero negative overflow
 
-datapath DUT(datapath_in,loada,loadb,loadc,loads,asel,bsel,vsel,ALUop,shift,datapath_out,Z_out,write,writenum,readnum,clk);
+datapath DUT(sximm8,loada,loadb,loadc,loads,asel,bsel,vsel,ALUop,shift,sximm5,PC,mdata,datapath_out,Z_out,write,writenum,readnum,clk);
+
 
 
 
@@ -18,28 +28,28 @@ datapath DUT(datapath_in,loada,loadb,loadc,loads,asel,bsel,vsel,ALUop,shift,data
 
 initial begin  //every 5-15-25 posedge clk
 clk=1'b0;loada=1'b0;loadb=1'b1;
-err=1'b0;  vsel=1'b1;  datapath_in=16'd7;
+err=1'b0;  vsel=4'b0010;  sximm8 =16'd7;
 write=1'b1;shift=2'b01; writenum=3'b000; readnum=3'b000;#5;//we want to write to R0 
 clk=1'b1; #5;  //should be written here data_out
 clk=1'b0; #5;
 clk=1'b1; #5; //should be written in inB and it is shifted!!!!!!!
-if(datapath_tb.DUT.inB!==16'd7)begin $display("FAILED"); err=1'b1; $stop; end // writing to R0
+if(datapath_tb.DUT.inB!==16'd7)begin $display("FAILED"); err=1'b1; end // writing to R0
 else err=1'b0;
 
 
 clk=1'b0;loada=1'b1;loadb=1'b0;
-err=1'b0;  vsel=1'b1;  datapath_in=16'd2;
+err=1'b0;  vsel=4'b0010;  sximm8=16'd2;
 write=1'b1;shift=2'b01; writenum=3'b001; readnum=3'b001;#5;//we want to write to R0 
 clk=1'b1; #5;  //should be written here data_out
 clk=1'b0; #5;
 clk=1'b1; #5; //should be written in inB and it is shifted!!!!!!!
-if(datapath_tb.DUT.inA!==16'd2)begin $display("FAILED"); err=1'b1; $stop; end // writing to R0
+if(datapath_tb.DUT.inA!==16'd2)begin $display("FAILED"); err=1'b1;  end // writing to R0
 else err=1'b0;
 
 asel=1'b0; bsel=1'b0; ALUop=2'b00; loadc=1'b1; loads=1'b1;
 clk=1'b0;#5;
 clk=1'b1;#5;
-if(datapath_out!==16'd16)begin $display("FAILED"); err=1'b1; $stop; end // writing to R0
+if(datapath_out!==16'd16)begin $display("FAILED"); err=1'b1;  end // writing to R0
 else err=1'b0;
 
 
