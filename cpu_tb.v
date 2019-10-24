@@ -1,6 +1,6 @@
 module cpu_tb();
   reg clk, reset, s, load;
-  reg [15:0] in;
+ reg [15:0] in;
   wire [15:0] out;
   wire N,V,Z,w;
 
@@ -98,7 +98,7 @@ in = 16'b1101000000000111;
 
 //Mov2: Test 2 --> opcode = 110, op = 00, Rn = 000, Rd = 010, sh = 01, Rm = 001
     in = 16'b1100000001001001;
-    R[1]=16'b0000000000000001;
+    cpu_tb.DUT.DP.REGFILE.R1=16'b0000000000000001;
 
     load = 1;
     s = 1;
@@ -117,7 +117,7 @@ in = 16'b1101000000000111;
 
 //Mov2: Test 3 --> opcode = 110, op = 00, Rn = 000, Rd = 010, sh = 10, Rm = 010
     in = 16'b1100000001010010;
-    R[2] = 16'b0000000000000010;
+    cpu_tb.DUT.DP.REGFILE.R2 = 16'b0000000000000010;
     load = 1;
     s = 1;
     #20;
@@ -138,8 +138,8 @@ in = 16'b1101000000000111;
 //ADD
 //ADD test 1 --> opcode=101, op = 00, Rn = 010, Rd = 001, sh = 00, Rm = 011
     in = 16'b1010001000100011; 
-    R[2] = 16'd4;
-    R[3] = 16'd1;
+    cpu_tb.DUT.DP.REGFILE.R2 = 16'd4;
+    cpu_tb.DUT.DP.REGFILE.R3= 16'd1;
     load = 1;
     s = 1;
     #20;
@@ -151,15 +151,15 @@ in = 16'b1101000000000111;
     #40;
     if (cpu_tb.DUT.DP.REGFILE.R1 !==16'd5) begin
       err = 1;
-      $display("FAILED: MOV R0,Rm");
+      $display("FAILED: Add, R1, R2,R3");
      
     end
 
 
 //ADD test 2 --> opcode = 101, op=00, Rn = 010, Rd = 001, sh = 01, Rm = 011
     in = 16'b1100001000101011; 
-    R[2] = 16'd1;
-    R[3] = 16'd2;
+    cpu_tb.DUT.DP.REGFILE.R2 = 16'd1;
+    cpu_tb.DUT.DP.REGFILE.R3 = 16'd2;
     load = 1;
     s = 1;
     #20;
@@ -169,16 +169,16 @@ in = 16'b1101000000000111;
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R1 !== 16'd5}) begin
+    if (cpu_tb.DUT.DP.REGFILE.R1 !== 16'd5) begin
       err = 1;
-      $display("FAILED: ADD Rd, Rn, Rm");
+      $display("FAILED: ADD R1, R2, R3, LSL#1");
      
     end
 
 //ADD test 3 --> opcode = 101, op = 00, Rn = 010, Rd = 100, sh = 10, Rm = 001
     in = 16'b1100001010010001;
-    R[2] = 16'd1;
-    R[1] = 16'd2; 
+    cpu_tb.DUT.DP.REGFILE.R2 = 16'd1;
+    cpu_tb.DUT.DP.REGFILE.R1 = 16'd2; 
 
     load = 1;
     s = 1;
@@ -191,13 +191,17 @@ in = 16'b1101000000000111;
     #40;
     if (cpu_tb.DUT.DP.REGFILE.R4 !== 16'd2) begin
       err = 1;
-      $display("FAILED: ADD Rd, Rn, Rm, LSL #2");
+      $display("FAILED: ADD R4, R2, R1, LSR#1");
      
     end
 
 
+//AND
+//AND test 1--> opcode = 101, op = 00, Rn = 010, Rd = 100, sh = 10, Rm = 001
+    in = 16'b1100001010010001;
+    cpu_tb.DUT.DP.REGFILE.R2 = 16'd1;
+    cpu_tb.DUT.DP.REGFILE.R1 = 16'd2; 
 
-in = 16'b1101000000000111;       //AND
     load = 1;
     s = 1;
     #20;
@@ -207,14 +211,16 @@ in = 16'b1101000000000111;       //AND
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
+    if (cpu_tb.DUT.DP.REGFILE.R4 !== 16'd2) begin
       err = 1;
-      $display("FAILED: ADD Rd, Rn, Rm");
+      $display("FAILED: AND Rd, Rn, Rm, LSL #2");
      
     end
 
-
-    in = 16'b1101000000000111;       //NOT
+//AND test 2 --> opcode = 101, op=00, Rn = 010, Rd = 001, sh = 01, Rm = 011
+    in = 16'b1100001000101011; 
+    cpu_tb.DUT.DP.REGFILE.R2 = 16'd1;
+    cpu_tb.DUT.DP.REGFILE.R3 = 16'd2;
     load = 1;
     s = 1;
     #20;
@@ -224,12 +230,32 @@ in = 16'b1101000000000111;       //AND
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
+    if (cpu_tb.DUT.DP.REGFILE.R1 !== 16'd5) begin
       err = 1;
-      $display("FAILED: ADD Rd, Rn, Rm, LSR #2");
+      $display("FAILED: AND Rd, Rn, Rm");
      
     end
 
+//AND test 3 --> opcode = 101, op = 00, Rn = 010, Rd = 100, sh = 10, Rm = 001
+    in = 16'b1100001010010001;
+    cpu_tb.DUT.DP.REGFILE.R2 = 16'd1;
+    cpu_tb.DUT.DP.REGFILE.R1 = 16'd2; 
+
+    load = 1;
+    s = 1;
+    #20;
+    load = 0;
+    
+    #20
+    s = 0;
+    @(posedge w); //wait for w to go high again
+    #40;
+    if (cpu_tb.DUT.DP.REGFILE.R4 !== 16'd2) begin
+      err = 1;
+      $display("FAILED: AND Rd, Rn, Rm, LSL #2");
+     
+    end
+  
 
     in = 16'b1101000000000111;       //NOT
     load = 1;
