@@ -23,6 +23,9 @@ module cpu_tb();
     reset = 0; 
     #20;
 
+//Move Instructions
+//MOV1
+//Mov1: Test 1 --> opcode = 110, op = 10,  Rn = 000,  im8 = 8'b00000111
 in = 16'b1101000000000111;
     load = 1;
     s = 1;
@@ -39,6 +42,7 @@ in = 16'b1101000000000111;
      
     end
 
+//Mov 1: Test 2 --> opcode = 110, op = 10, Rn = 001, im8 = 8'b00000010
     in = 16'b1101000100000010;
     load = 1;
     #20;
@@ -54,24 +58,9 @@ in = 16'b1101000000000111;
      
     end
 
-    in = 16'b1010000101001000;
-    load = 1;
-    #20;
-    load = 0;
-    s = 1;
-    #20
-    s = 0;
-    @(posedge w); // wait for w to go high again
-    #20;
-    if (cpu_tb.DUT.DP.REGFILE.R2 !== 16'h10) begin
-      err = 1;
-      $display("FAILED: ADD R2, R1, R0, LSL#1");
-      $stop;
-    end
 
-
-//change from here
-in = 16'b1101000000000111;      //MOV1
+//Mov 1: Test 3 --> opcode = 110, op = 10, Rn = 011, im8 = 8'b00000011
+    in = 16'b1101001100000011;       
     load = 1;
     s = 1;
     #20;
@@ -81,31 +70,17 @@ in = 16'b1101000000000111;      //MOV1
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
+    if (cpu_tb.DUT.DP.REGFILE.R3 !== 16'h3) begin
       err = 1;
-      $display("FAILED: MOV R0, #7");
-     
-    end
-    
-
-    in = 16'b1101000000000111;       //MOV1
-    load = 1;
-    s = 1;
-    #20;
-    load = 0;
-    
-    #20
-    s = 0;
-    @(posedge w); //wait for w to go high again
-    #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
-      err = 1;
-      $display("FAILED: MOV R0, #7");
+      $display("FAILED: MOV R3, #3");
      
     end
 
+//MOV2
+//Mov2: Test 1 --> opcode= 110, op = 00, Rn = 000, Rd = 001, sh = 00, Rm = 010;
+    
+    in = 16'b1100000000100010;  
 
-    in = 16'b1101000000000111;       //MOV2
     load = 1;
     s = 1;
     #20;
@@ -115,15 +90,16 @@ in = 16'b1101000000000111;      //MOV1
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
+    if (cpu_tb.DUT.DP.REGFILE.R1 !== cpu_tb.DUT.DP.REGFILE.R2) begin
       err = 1;
-      $display("FAILED: MOV R0, #7");
+      $display("FAILED: MOV R1, R2{<no_shift>}");
      
     end
 
+//Mov2: Test 2 --> opcode = 110, op = 00, Rn = 000, Rd = 010, sh = 01, Rm = 001
+    in = 16'b1100000001001001;
+    R[1]=16'b0000000000000001;
 
-
-    in = 16'b1101000000000111;      //MOV2
     load = 1;
     s = 1;
     #20;
@@ -133,15 +109,37 @@ in = 16'b1101000000000111;      //MOV1
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
+    if (cpu_tb.DUT.DP.REGFILE.R2 !== 16'd2) begin
       err = 1;
-      $display("FAILED: MOV R0, Rm");
+      $display("FAILED: MOV R2,R1{<shift_left>}");
+     
+    end
+
+//Mov2: Test 3 --> opcode = 110, op = 00, Rn = 000, Rd = 010, sh = 10, Rm = 010
+    in = 16'b1100000001010010;
+    R[2] = 16'b0000000000000010;
+    load = 1;
+    s = 1;
+    #20;
+    load = 0;
+    
+    #20
+    s = 0;
+    @(posedge w); //wait for w to go high again
+    #40;
+    if (cpu_tb.DUT.DP.REGFILE.R2 !== 16'd1) begin
+      err = 1;
+      $display("FAILED: MOV2 R2,R2{<shift_right>}");
      
     end
 
 
-
-    in = 16'b1101000000000111;    //MOV2
+//ALU Instructions
+//ADD
+//ADD test 1 --> opcode=101, op = 00, Rn = 010, Rd = 001, sh = 00, Rm = 011
+    in = 16'b1010001000100011; 
+    R[2] = 16'd4;
+    R[3] = 16'd5;
     load = 1;
     s = 1;
     #20;
@@ -151,16 +149,17 @@ in = 16'b1101000000000111;      //MOV1
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
+    if (cpu_tb.DUT.DP.REGFILE.R1 !==16'd5) begin
       err = 1;
       $display("FAILED: MOV R0,Rm");
      
     end
 
 
-
-
-    in = 16'b1101000000000111;       //ADD
+//ADD test 2 --> opcode = 101, op=00, Rn = 010, Rd = 001, sh = 01, Rm = 011
+    in = 16'b1100001000101011; 
+    R[2] = 16'd1;
+    R[3] = 16'd2;
     load = 1;
     s = 1;
     #20;
@@ -170,32 +169,13 @@ in = 16'b1101000000000111;      //MOV1
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
-      err = 1;
-      $display("FAILED: MOV R0,Rm");
-     
-    end
-
-
-
-
-    in = 16'b1101000000000111;       //ADD
-    load = 1;
-    s = 1;
-    #20;
-    load = 0;
-    
-    #20
-    s = 0;
-    @(posedge w); //wait for w to go high again
-    #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
+    if (cpu_tb.DUT.DP.REGFILE.R1 !== 16'd5) begin
       err = 1;
       $display("FAILED: ADD Rd, Rn, Rm");
      
     end
 
-
+//ADD test 3 -->
     in = 16'b1101000000000111;       //AND
     load = 1;
     s = 1;
