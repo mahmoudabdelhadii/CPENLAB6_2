@@ -139,7 +139,7 @@ in = 16'b1101000000000111;
 //ADD test 1 --> opcode=101, op = 00, Rn = 010, Rd = 001, sh = 00, Rm = 011
     in = 16'b1010001000100011; 
     R[2] = 16'd4;
-    R[3] = 16'd5;
+    R[3] = 16'd1;
     load = 1;
     s = 1;
     #20;
@@ -169,14 +169,17 @@ in = 16'b1101000000000111;
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R1 !== 16'd5) begin
+    if (cpu_tb.DUT.DP.REGFILE.R1 !== 16'd5}) begin
       err = 1;
       $display("FAILED: ADD Rd, Rn, Rm");
      
     end
 
-//ADD test 3 -->
-    in = 16'b1101000000000111;       //AND
+//ADD test 3 --> opcode = 101, op = 00, Rn = 010, Rd = 100, sh = 10, Rm = 001
+    in = 16'b1100001010010001;
+    R[2] = 16'd1;
+    R[1] = 16'd2; 
+
     load = 1;
     s = 1;
     #20;
@@ -186,7 +189,7 @@ in = 16'b1101000000000111;
     s = 0;
     @(posedge w); //wait for w to go high again
     #40;
-    if (cpu_tb.DUT.DP.REGFILE.R0 !== 16'h7) begin
+    if (cpu_tb.DUT.DP.REGFILE.R4 !== 16'd2) begin
       err = 1;
       $display("FAILED: ADD Rd, Rn, Rm, LSL #2");
      
